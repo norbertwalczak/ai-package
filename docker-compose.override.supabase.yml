@@ -1,0 +1,31 @@
+# Override dla Supabase — wyłączenie analytics (Logflare) i vector (zbieracz logów)
+# Analytics jest zastąpiony lekkim kontenerem busybox,
+# który jedynie odpowiada na healthcheck, dzięki czemu zależne usługi startują normalnie.
+# Vector (zbieracz logów, NIE baza wektorowa) również zastąpiony busyboxem.
+# Baza wektorowa (pgvector) jest rozszerzeniem PostgreSQL w kontenerze supabase-db i nie jest tym dotknięta.
+
+services:
+  analytics:
+    image: busybox:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "true"]
+      interval: 5s
+      timeout: 2s
+      retries: 3
+    entrypoint: ["httpd", "-f", "-p", "4000", "-h", "/tmp"]
+    environment: {}
+    depends_on: {}
+
+  vector:
+    image: busybox:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "true"]
+      interval: 5s
+      timeout: 2s
+      retries: 3
+    entrypoint: ["sleep", "infinity"]
+    environment: {}
+    volumes: []
+    command: []

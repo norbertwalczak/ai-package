@@ -1,6 +1,6 @@
-# CLAUDE.md
+# GEMINI.md
 
-Ten plik zawiera wytyczne dla Claude Code (claude.ai/code) podczas pracy z kodem w tym repozytorium.
+Ten plik zawiera wytyczne dla Agenta podczas pracy z kodem w tym repozytorium.
 
 ## Przegląd projektu
 

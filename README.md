@@ -1,15 +1,16 @@
-# Self-hosted AI Package
+# Samodzielnie hostowany pakiet AI
 
-**Self-hosted AI Package** is an open, docker compose template that
-quickly bootstraps a fully featured Local AI and Low Code development
-environment including Ollama for your local LLMs, Open WebUI for an interface to chat with your N8N agents, and Supabase for your database, vector store, and authentication. 
+**Samodzielnie hostowany pakiet AI** to otwarty szablon docker compose, który
+szybko uruchamia w pełni funkcjonalne lokalne środowisko deweloperskie AI i Low Code,
+zawierające Ollama do lokalnych modeli LLM, Open WebUI jako interfejs do rozmów z agentami N8N
+oraz Supabase do bazy danych, magazynu wektorów i uwierzytelniania.
 
-This is Cole's version with a couple of improvements and the addition of Supabase, Open WebUI, Flowise, Neo4j, Langfuse, SearXNG, and Caddy!
-Pre-built RAG AI Agent workflows from the video are included in `n8n/backup/workflows/` - see [Importing Starter Workflows](#importing-starter-workflows) for setup instructions.
+To jest wersja Cole'a z kilkoma ulepszeniami i dodatkiem Supabase, Open WebUI, Flowise, Neo4j, Langfuse, SearXNG i Caddy!
+Gotowe workflow agentów RAG AI z filmu znajdują się w `n8n/backup/workflows/` — zobacz [Importowanie startowych workflow](#importowanie-startowych-workflow) po instrukcje konfiguracji.
 
-**IMPORANT**: Supabase has updated a couple environment variables so you may have to add some new default values in your .env that I have in my .env.example if you have had this project up and running already and are just pulling new changes. Specifically, you need to add "POOLER_DB_POOL_SIZE=5" to your .env. This is required if you have had the package running before June 14th.
+**WAŻNE**: Supabase zaktualizował kilka zmiennych środowiskowych, więc może być konieczne dodanie nowych domyślnych wartości w pliku .env, które mam w swoim .env.example, jeśli już wcześniej uruchomiłeś ten projekt i teraz tylko pobierasz nowe zmiany. Konkretnie, musisz dodać „POOLER_DB_POOL_SIZE=5" do swojego .env. Jest to wymagane, jeśli uruchamiałeś pakiet przed 14 czerwca.
 
-**February 26th, 2026 Update**: The latest Supabase storage container (`storage-api v1.37.8`) now requires several new environment variables. If you have already been running the Local AI Package and are pulling new changes, you need to add the following to your `.env` file:
+**Aktualizacja z 26 lutego 2026**: Najnowszy kontener Supabase storage (`storage-api v1.37.8`) wymaga teraz kilku nowych zmiennych środowiskowych. Jeśli już uruchamiałeś Lokalny Pakiet AI i pobierasz nowe zmiany, musisz dodać następujące wpisy do pliku `.env`:
 ```bash
 GLOBAL_S3_BUCKET=stub
 REGION=stub
@@ -17,83 +18,83 @@ STORAGE_TENANT_ID=stub
 S3_PROTOCOL_ACCESS_KEY_ID=625729a08b95bf1b7ff351a663f3a23c
 S3_PROTOCOL_ACCESS_KEY_SECRET=850181e4652dd023b7a98c58ae0d2d34bd487ee0cc3254aed6eda37307425907
 ```
-These are already included in the `.env.example`, so if you are setting up for the first time you just need to copy them over. The `stub` values work fine for local file-based storage. Without these variables, the Supabase storage container will crash on startup with a "Region is missing" error.
+Są one już zawarte w `.env.example`, więc jeśli konfigurujesz je po raz pierwszy, wystarczy je skopiować. Wartości `stub` działają prawidłowo w przypadku lokalnego przechowywania plików. Bez tych zmiennych kontener Supabase storage ulegnie awarii przy starcie z błędem „Region is missing".
 
-## Important Links
+## Ważne linki
 
-- [Local AI community](https://thinktank.ottomator.ai/c/local-ai/18) forum over in the oTTomator Think Tank
+- [Społeczność Local AI](https://thinktank.ottomator.ai/c/local-ai/18) na forum oTTomator Think Tank
 
-- [GitHub Kanban board](https://github.com/users/coleam00/projects/2/views/1) for feature implementation and bug squashing.
+- [Tablica Kanban na GitHub](https://github.com/users/coleam00/projects/2/views/1) do implementacji funkcji i naprawiania błędów.
 
-- [Original Local AI Starter Kit](https://github.com/n8n-io/self-hosted-ai-starter-kit) by the n8n team
+- [Oryginalny Local AI Starter Kit](https://github.com/n8n-io/self-hosted-ai-starter-kit) od zespołu n8n
 
-- Download my N8N + OpenWebUI integration [directly on the Open WebUI site.](https://openwebui.com/f/coleam/n8n_pipe/) (more instructions below)
+- Pobierz moją integrację N8N + OpenWebUI [bezpośrednio ze strony Open WebUI.](https://openwebui.com/f/coleam/n8n_pipe/) (więcej instrukcji poniżej)
 
-![n8n.io - Screenshot](https://raw.githubusercontent.com/n8n-io/self-hosted-ai-starter-kit/main/assets/n8n-demo.gif)
+![n8n.io - Zrzut ekranu](https://raw.githubusercontent.com/n8n-io/self-hosted-ai-starter-kit/main/assets/n8n-demo.gif)
 
-Curated by <https://github.com/n8n-io> and <https://github.com/coleam00>, it combines the self-hosted n8n
-platform with a curated list of compatible AI products and components to
-quickly get started with building self-hosted AI workflows.
+Przygotowany przez <https://github.com/n8n-io> i <https://github.com/coleam00>, łączy samodzielnie hostowaną platformę n8n
+z wyselekcjonowaną listą kompatybilnych produktów i komponentów AI, aby
+szybko rozpocząć budowanie samodzielnie hostowanych workflow AI.
 
-### What’s included
+### Co jest zawarte
 
-✅ [**Self-hosted n8n**](https://n8n.io/) - Low-code platform with over 400
-integrations and advanced AI components
+✅ [**Samodzielnie hostowany n8n**](https://n8n.io/) - Platforma low-code z ponad 400
+integracjami i zaawansowanymi komponentami AI
 
-✅ [**Supabase**](https://supabase.com/) - Open source database as a service -
-most widely used database for AI agents
+✅ [**Supabase**](https://supabase.com/) - Open source baza danych jako usługa -
+najczęściej używana baza danych dla agentów AI
 
-✅ [**Ollama**](https://ollama.com/) - Cross-platform LLM platform to install
-and run the latest local LLMs
+✅ [**Ollama**](https://ollama.com/) - Wieloplatformowa platforma LLM do instalacji
+i uruchamiania najnowszych lokalnych modeli LLM
 
-✅ [**Open WebUI**](https://openwebui.com/) - ChatGPT-like interface to
-privately interact with your local models and N8N agents
+✅ [**Open WebUI**](https://openwebui.com/) - Interfejs podobny do ChatGPT do
+prywatnej interakcji z lokalnymi modelami i agentami N8N
 
-✅ [**Flowise**](https://flowiseai.com/) - No/low code AI agent
-builder that pairs very well with n8n
+✅ [**Flowise**](https://flowiseai.com/) - No/low code kreator agentów AI,
+który doskonale współpracuje z n8n
 
-✅ [**Qdrant**](https://qdrant.tech/) - Open source, high performance vector
-store with an comprehensive API. Even though you can use Supabase for RAG, this was
-kept unlike Postgres since it's faster than Supabase so sometimes is the better option.
+✅ [**Qdrant**](https://qdrant.tech/) - Open source, wysokowydajny magazyn
+wektorów z kompleksowym API. Mimo że można używać Supabase do RAG, ten został
+zachowany (w przeciwieństwie do Postgres), ponieważ jest szybszy od Supabase, więc czasem jest lepszą opcją.
 
-✅ [**Neo4j**](https://neo4j.com/) - Knowledge graph engine that powers tools like GraphRAG, LightRAG, and Graphiti 
+✅ [**Neo4j**](https://neo4j.com/) - Silnik grafów wiedzy, który zasila narzędzia takie jak GraphRAG, LightRAG i Graphiti
 
-✅ [**SearXNG**](https://searxng.org/) - Open source, free internet metasearch engine which aggregates 
-results from up to 229 search services. Users are neither tracked nor profiled, hence the fit with the local AI package.
+✅ [**SearXNG**](https://searxng.org/) - Open source, darmowy meta-silnik wyszukiwania internetowego, który agreguje
+wyniki z nawet 229 usług wyszukiwania. Użytkownicy nie są śledzeni ani profilowani, stąd dopasowanie do lokalnego pakietu AI.
 
-✅ [**Caddy**](https://caddyserver.com/) - Managed HTTPS/TLS for custom domains
+✅ [**Caddy**](https://caddyserver.com/) - Zarządzany HTTPS/TLS dla niestandardowych domen
 
-✅ [**Langfuse**](https://langfuse.com/) - Open source LLM engineering platform for agent observability
+✅ [**Langfuse**](https://langfuse.com/) - Open source platforma inżynierii LLM do obserwacji agentów
 
-## Prerequisites
+## Wymagania wstępne
 
-Before you begin, make sure you have the following software installed:
+Zanim zaczniesz, upewnij się, że masz zainstalowane następujące oprogramowanie:
 
-- [Python](https://www.python.org/downloads/) - Required to run the setup script
-- [Git/GitHub Desktop](https://desktop.github.com/) - For easy repository management
-- [Docker/Docker Desktop](https://www.docker.com/products/docker-desktop/) - Required to run all services
+- [Python](https://www.python.org/downloads/) - Wymagany do uruchomienia skryptu konfiguracyjnego
+- [Git/GitHub Desktop](https://desktop.github.com/) - Do łatwego zarządzania repozytorium
+- [Docker/Docker Desktop](https://www.docker.com/products/docker-desktop/) - Wymagany do uruchomienia wszystkich usług
 
-## Installation
+## Instalacja
 
-Clone the repository and navigate to the project directory:
+Sklonuj repozytorium i przejdź do katalogu projektu:
 ```bash
 git clone -b stable https://github.com/coleam00/local-ai-packaged.git
 cd local-ai-packaged
 ```
 
-Before running the services, you need to set up your environment variables for Supabase following their [self-hosting guide](https://supabase.com/docs/guides/self-hosting/docker#securing-your-services).
+Przed uruchomieniem usług musisz skonfigurować zmienne środowiskowe dla Supabase zgodnie z ich [przewodnikiem po self-hostingu](https://supabase.com/docs/guides/self-hosting/docker#securing-your-services).
 
-1. Make a copy of `.env.example` and rename it to `.env` in the root directory of the project
-2. Set the following required environment variables:
+1. Utwórz kopię `.env.example` i zmień jej nazwę na `.env` w katalogu głównym projektu
+2. Ustaw następujące wymagane zmienne środowiskowe:
    ```bash
    ############
-   # N8N Configuration
+   # Konfiguracja N8N
    ############
    N8N_ENCRYPTION_KEY=
    N8N_USER_MANAGEMENT_JWT_SECRET=
 
    ############
-   # Supabase Secrets
+   # Sekrety Supabase
    ############
    POSTGRES_PASSWORD=
    JWT_SECRET=
@@ -104,12 +105,12 @@ Before running the services, you need to set up your environment variables for S
    POOLER_TENANT_ID=
 
    ############
-   # Neo4j Secrets
+   # Sekrety Neo4j
    ############   
    NEO4J_AUTH=
 
    ############
-   # Langfuse credentials
+   # Dane logowania Langfuse
    ############
 
    CLICKHOUSE_PASSWORD=
@@ -120,333 +121,333 @@ Before running the services, you need to set up your environment variables for S
    ```
 
 > [!IMPORTANT]
-> Make sure to generate secure random values for all secrets. Never use the example values in production.
+> Upewnij się, że generujesz bezpieczne losowe wartości dla wszystkich sekretów. Nigdy nie używaj przykładowych wartości w produkcji.
 
-3. Set the following environment variables if deploying to production, otherwise leave commented:
+3. Ustaw następujące zmienne środowiskowe, jeśli wdrażasz na produkcję, w przeciwnym razie pozostaw zakomentowane:
    ```bash
    ############
-   # Caddy Config
+   # Konfiguracja Caddy
    ############
 
-   N8N_HOSTNAME=n8n.yourdomain.com
-   WEBUI_HOSTNAME=:openwebui.yourdomain.com
-   FLOWISE_HOSTNAME=:flowise.yourdomain.com
-   SUPABASE_HOSTNAME=:supabase.yourdomain.com
-   OLLAMA_HOSTNAME=:ollama.yourdomain.com
-   SEARXNG_HOSTNAME=searxng.yourdomain.com
-   NEO4J_HOSTNAME=neo4j.yourdomain.com
-   LETSENCRYPT_EMAIL=your-email-address
+   N8N_HOSTNAME=n8n.twojadomena.com
+   WEBUI_HOSTNAME=:openwebui.twojadomena.com
+   FLOWISE_HOSTNAME=:flowise.twojadomena.com
+   SUPABASE_HOSTNAME=:supabase.twojadomena.com
+   OLLAMA_HOSTNAME=:ollama.twojadomena.com
+   SEARXNG_HOSTNAME=searxng.twojadomena.com
+   NEO4J_HOSTNAME=neo4j.twojadomena.com
+   LETSENCRYPT_EMAIL=twoj-adres-email
    ```   
 
 ---
 
-The project includes a `start_services.py` script that handles starting both the Supabase and local AI services. The script accepts a `--profile` flag to specify which GPU configuration to use.
+Projekt zawiera skrypt `start_services.py`, który obsługuje uruchamianie zarówno Supabase, jak i lokalnych usług AI. Skrypt przyjmuje flagę `--profile` do określenia konfiguracji GPU.
 
-### For Nvidia GPU users
+### Dla użytkowników GPU Nvidia
 
 ```bash
 python start_services.py --profile gpu-nvidia
 ```
 
 > [!NOTE]
-> If you have not used your Nvidia GPU with Docker before, please follow the
-> [Ollama Docker instructions](https://github.com/ollama/ollama/blob/main/docs/docker.mdx).
+> Jeśli nie używałeś jeszcze GPU Nvidia z Dockerem, postępuj zgodnie z
+> [instrukcjami Ollama Docker](https://github.com/ollama/ollama/blob/main/docs/docker.mdx).
 
-### For AMD GPU users on Linux
+### Dla użytkowników GPU AMD na Linuxie
 
 ```bash
 python start_services.py --profile gpu-amd
 ```
 
-### For Mac / Apple Silicon users
+### Dla użytkowników Mac / Apple Silicon
 
-If you're using a Mac with an M1 or newer processor, you can't expose your GPU to the Docker instance, unfortunately. There are two options in this case:
+Jeśli używasz Maca z procesorem M1 lub nowszym, niestety nie możesz udostępnić GPU instancji Dockera. W tym przypadku są dwie opcje:
 
-1. Run the starter kit fully on CPU:
+1. Uruchom starter kit w pełni na CPU:
    ```bash
    python start_services.py --profile cpu
    ```
 
-2. Run Ollama on your Mac for faster inference, and connect to that from the n8n instance:
+2. Uruchom Ollama na Macu dla szybszej inferencji i połącz się z nią z instancji n8n:
    ```bash
    python start_services.py --profile none
    ```
 
-   If you want to run Ollama on your mac, check the [Ollama homepage](https://ollama.com/) for installation instructions.
+   Jeśli chcesz uruchomić Ollama na Macu, sprawdź [stronę główną Ollama](https://ollama.com/) po instrukcje instalacji.
 
-#### For Mac users running OLLAMA locally
+#### Dla użytkowników Mac uruchamiających OLLAMA lokalnie
 
-If you're running OLLAMA locally on your Mac (not in Docker), you need to modify the OLLAMA_HOST environment variable in the n8n service configuration. Update the x-n8n section in your Docker Compose file as follows:
+Jeśli uruchamiasz OLLAMA lokalnie na Macu (nie w Dockerze), musisz zmodyfikować zmienną środowiskową OLLAMA_HOST w konfiguracji usługi n8n. Zaktualizuj sekcję x-n8n w pliku Docker Compose w następujący sposób:
 
 ```yaml
 x-n8n: &service-n8n
-  # ... other configurations ...
+  # ... inne konfiguracje ...
   environment:
-    # ... other environment variables ...
+    # ... inne zmienne środowiskowe ...
     - OLLAMA_HOST=host.docker.internal:11434
 ```
 
-Additionally, after you see "Editor is now accessible via: http://localhost:5678/":
+Dodatkowo, po zobaczeniu „Editor is now accessible via: http://localhost:5678/":
 
-1. Head to http://localhost:5678/home/credentials
-2. Click on "Local Ollama service"
-3. Change the base URL to "http://host.docker.internal:11434/"
+1. Przejdź do http://localhost:5678/home/credentials
+2. Kliknij „Local Ollama service"
+3. Zmień bazowy URL na „http://host.docker.internal:11434/"
 
-### For everyone else
+### Dla wszystkich pozostałych
 
 ```bash
 python start_services.py --profile cpu
 ```
 
-### The environment argument
-The **start-services.py** script offers the possibility to pass one of two options for the environment argument, **private** (default environment) and **public**:
-- **private:** you are deploying the stack in a safe environment, hence a lot of ports can be made accessible without having to worry about security
-- **public:** the stack is deployed in a public environment, which means the attack surface should be made as small as possible. All ports except for 80 and 443 are closed
+### Argument środowiska
+Skrypt **start-services.py** oferuje możliwość przekazania jednej z dwóch opcji argumentu środowiska, **private** (domyślne środowisko) i **public**:
+- **private:** wdrażasz stos w bezpiecznym środowisku, więc wiele portów może być dostępnych bez obaw o bezpieczeństwo
+- **public:** stos jest wdrożony w publicznym środowisku, co oznacza, że powierzchnia ataku powinna być jak najmniejsza. Wszystkie porty oprócz 80 i 443 są zamknięte
 
-The stack initialized with
+Stos zainicjowany z
 ```bash
    python start_services.py --profile gpu-nvidia --environment private
    ```
-equals the one initialized with
+jest równoważny temu zainicjowanemu z
 ```bash
    python start_services.py --profile gpu-nvidia
    ```
 
-## Deploying to the Cloud
+## Wdrażanie w chmurze
 
-### Prerequisites for the below steps
+### Wymagania wstępne dla poniższych kroków
 
-- Linux machine (preferably Unbuntu) with Nano, Git, and Docker installed
+- Maszyna Linux (najlepiej Ubuntu) z zainstalowanymi Nano, Git i Docker
 
-### Extra steps
+### Dodatkowe kroki
 
-Before running the above commands to pull the repo and install everything:
+Przed uruchomieniem powyższych poleceń do pobrania repozytorium i instalacji:
 
-1. Run the commands as root to open up the necessary ports:
+1. Uruchom polecenia jako root, aby otworzyć niezbędne porty:
    - ufw enable
    - ufw allow 80 && ufw allow 443
    - ufw reload
    ---
-   **WARNING**
+   **OSTRZEŻENIE**
 
-   ufw does not shield ports published by docker, because the iptables rules configured by docker are analyzed before those configured by ufw. There is a solution to change this behavior, but that is out of scope for this project. Just make sure that all traffic runs through the caddy service via port 443. Port 80 should only be used to redirect to port 443.
+   ufw nie chroni portów opublikowanych przez Docker, ponieważ reguły iptables skonfigurowane przez Docker są analizowane przed tymi skonfigurowanymi przez ufw. Istnieje rozwiązanie zmieniające to zachowanie, ale wykracza poza zakres tego projektu. Upewnij się tylko, że cały ruch przechodzi przez usługę Caddy przez port 443. Port 80 powinien być używany tylko do przekierowania na port 443.
 
    ---
-2. Run the **start-services.py** script with the environment argument **public** to indicate you are going to run the package in a public environment. The script will make sure that all ports, except for 80 and 443, are closed down, e.g.
+2. Uruchom skrypt **start-services.py** z argumentem środowiska **public**, aby wskazać, że zamierzasz uruchomić pakiet w publicznym środowisku. Skrypt upewni się, że wszystkie porty oprócz 80 i 443 są zamknięte, np.
 
 ```bash
    python3 start_services.py --profile gpu-nvidia --environment public
    ```
 
-3. Set up A records for your DNS provider to point your subdomains you'll set up in the .env file for Caddy
-to the IP address of your cloud instance.
+3. Skonfiguruj rekordy A u dostawcy DNS, aby skierować subdomeny ustawione w pliku .env dla Caddy
+na adres IP instancji w chmurze.
 
-   For example, A record to point n8n to [cloud instance IP] for n8n.yourdomain.com
+   Na przykład, rekord A kierujący n8n na [IP instancji w chmurze] dla n8n.twojadomena.com
 
 
-**NOTE**: If you are using a cloud machine without the "docker compose" command available by default, such as a Ubuntu GPU instance on DigitalOcean, run these commands before running start_services.py:
+**UWAGA**: Jeśli używasz maszyny w chmurze bez domyślnie dostępnej komendy „docker compose", na przykład instancji GPU Ubuntu na DigitalOcean, uruchom te polecenia przed uruchomieniem start_services.py:
 
-- DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\\" -f4)
+- DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\\\" -f4)
 - sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
 - sudo chmod +x /usr/local/bin/docker-compose
 - sudo mkdir -p /usr/local/lib/docker/cli-plugins
 - sudo ln -s /usr/local/bin/docker-compose /usr/local/lib/docker/cli-plugins/docker-compose
 
-## Importing Starter Workflows
+## Importowanie startowych workflow
 
-This package includes pre-built n8n workflows in the `n8n/backup/workflows/` folder. To import them:
+Ten pakiet zawiera gotowe workflow n8n w folderze `n8n/backup/workflows/`. Aby je zaimportować:
 
-1. Open n8n at <http://localhost:5678/> (or your custom domain if deployed to the cloud)
-2. Go to your workflow list and click the three-dot menu or use **Import from File**
-3. Select the JSON files from the `n8n/backup/workflows/` folder on your local machine
+1. Otwórz n8n pod adresem <http://localhost:5678/> (lub Twoją niestandardową domeną, jeśli wdrożone w chmurze)
+2. Przejdź do listy workflow i kliknij menu z trzema kropkami lub użyj **Importuj z pliku**
+3. Wybierz pliki JSON z folderu `n8n/backup/workflows/` na Twoim lokalnym komputerze
 
-For detailed instructions, see the [official n8n import/export documentation](https://docs.n8n.io/workflows/export-import/).
+Szczegółowe instrukcje znajdziesz w [oficjalnej dokumentacji importu/eksportu n8n](https://docs.n8n.io/workflows/export-import/).
 
 > [!NOTE]
-> You'll need to create credentials for each workflow after importing. See step 3 in Quick Start below.
+> Po zaimportowaniu musisz utworzyć dane uwierzytelniające dla każdego workflow. Zobacz krok 3 w Szybkim starcie poniżej.
 
-## ⚡️ Quick start and usage
+## ⚡️ Szybki start i użytkowanie
 
-The main component of the self-hosted AI starter kit is a docker compose file
-pre-configured with network and disk so there isn’t much else you need to
-install. After completing the installation steps above, follow the steps below
-to get started.
+Głównym komponentem samodzielnie hostowanego starter kitu AI jest plik docker compose
+wstępnie skonfigurowany z siecią i dyskiem, więc nie ma wiele więcej do
+zainstalowania. Po wykonaniu powyższych kroków instalacji, postępuj zgodnie z poniższymi krokami,
+aby rozpocząć.
 
-1. Open <http://localhost:5678/> in your browser to set up n8n. You’ll only
-   have to do this once. You are NOT creating an account with n8n in the setup here,
-   it is only a local account for your instance!
-2. Import a workflow from `n8n/backup/workflows/` (see [Importing Starter Workflows](#importing-starter-workflows)), then open it from your workflow list.
-3. Create credentials for every service:
+1. Otwórz <http://localhost:5678/> w przeglądarce, aby skonfigurować n8n. Musisz
+   to zrobić tylko raz. NIE tworzysz tutaj konta w n8n,
+   to tylko lokalne konto dla Twojej instancji!
+2. Zaimportuj workflow z `n8n/backup/workflows/` (zobacz [Importowanie startowych workflow](#importowanie-startowych-workflow)), a następnie otwórz go z listy workflow.
+3. Utwórz dane uwierzytelniające dla każdej usługi:
    
-   Ollama URL: http://ollama:11434
+   URL Ollama: http://ollama:11434
 
-   Postgres (through Supabase): use DB, username, and password from .env. IMPORTANT: Host is 'db'
-   Since that is the name of the service running Supabase
+   Postgres (przez Supabase): użyj nazwy bazy danych, użytkownika i hasła z .env. WAŻNE: Host to 'db',
+   ponieważ tak nazywa się usługa uruchamiająca Supabase
 
-   Qdrant URL: http://qdrant:6333 (API key can be whatever since this is running locally)
+   URL Qdrant: http://qdrant:6333 (klucz API może być dowolny, ponieważ działa lokalnie)
 
-   Google Drive: Follow [this guide from n8n](https://docs.n8n.io/integrations/builtin/credentials/google/).
-   Don't use localhost for the redirect URI, just use another domain you have, it will still work!
-   Alternatively, you can set up [local file triggers](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.localfiletrigger/).
-4. Select **Test workflow** to start running the workflow.
-5. If this is the first time you’re running the workflow, you may need to wait
-   until Ollama finishes downloading Llama3.1. You can inspect the docker
-   console logs to check on the progress.
-6. Make sure to toggle the workflow as active and copy the "Production" webhook URL!
-7. Open <http://localhost:3000/> in your browser to set up Open WebUI.
-You’ll only have to do this once. You are NOT creating an account with Open WebUI in the 
-setup here, it is only a local account for your instance!
-8. Go to Workspace -> Functions -> Add Function -> Give name + description then paste in
-the code from `n8n_pipe.py`
+   Google Drive: Postępuj zgodnie z [tym przewodnikiem od n8n](https://docs.n8n.io/integrations/builtin/credentials/google/).
+   Nie używaj localhost jako URI przekierowania, po prostu użyj innej domeny, którą masz, i tak zadziała!
+   Alternatywnie możesz skonfigurować [lokalne wyzwalacze plików](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.localfiletrigger/).
+4. Wybierz **Testuj workflow**, aby rozpocząć uruchamianie workflow.
+5. Jeśli uruchamiasz workflow po raz pierwszy, może być konieczne poczekanie,
+   aż Ollama zakończy pobieranie Llama3.1. Możesz sprawdzić logi konsoli Docker,
+   aby śledzić postęp.
+6. Upewnij się, że przełączysz workflow jako aktywny i skopiujesz „Produkcyjny" URL webhooka!
+7. Otwórz <http://localhost:3000/> w przeglądarce, aby skonfigurować Open WebUI.
+Musisz to zrobić tylko raz. NIE tworzysz tutaj konta w Open WebUI,
+to tylko lokalne konto dla Twojej instancji!
+8. Przejdź do Workspace -> Funkcje -> Dodaj funkcję -> Nadaj nazwę + opis, a następnie wklej
+kod z `n8n_pipe.py`
 
-   The function is also [published here on Open WebUI's site](https://openwebui.com/f/coleam/n8n_pipe/).
+   Funkcja jest również [opublikowana na stronie Open WebUI](https://openwebui.com/f/coleam/n8n_pipe/).
 
-9. Click on the gear icon and set the n8n_url to the production URL for the webhook
-you copied in a previous step.
-10. Toggle the function on and now it will be available in your model dropdown in the top left! 
+9. Kliknij ikonę koła zębatego i ustaw n8n_url na produkcyjny URL webhooka,
+który skopiowałeś w poprzednim kroku.
+10. Włącz funkcję i teraz będzie dostępna w rozwijanym menu modeli w lewym górnym rogu!
 
-To open n8n at any time, visit <http://localhost:5678/> in your browser.
-To open Open WebUI at any time, visit <http://localhost:3000/>.
+Aby otworzyć n8n w dowolnym momencie, odwiedź <http://localhost:5678/> w przeglądarce.
+Aby otworzyć Open WebUI w dowolnym momencie, odwiedź <http://localhost:3000/>.
 
-With your n8n instance, you’ll have access to over 400 integrations and a
-suite of basic and advanced AI nodes such as
-[AI Agent](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/),
-[Text classifier](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.text-classifier/),
-and [Information Extractor](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.information-extractor/)
-nodes. To keep everything local, just remember to use the Ollama node for your
-language model and Qdrant as your vector store.
+Z Twoją instancją n8n będziesz mieć dostęp do ponad 400 integracji i
+zestawu podstawowych i zaawansowanych węzłów AI, takich jak
+[Agent AI](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/),
+[Klasyfikator tekstu](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.text-classifier/)
+i [Ekstraktor informacji](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.information-extractor/).
+Aby zachować wszystko lokalnie, pamiętaj o użyciu węzła Ollama dla modelu
+językowego i Qdrant jako magazynu wektorów.
 
 > [!NOTE]
-> This starter kit is designed to help you get started with self-hosted AI
-> workflows. While it’s not fully optimized for production environments, it
-> combines robust components that work well together for proof-of-concept
-> projects. You can customize it to meet your specific needs
+> Ten starter kit został zaprojektowany, aby pomóc Ci rozpocząć pracę z samodzielnie hostowanymi
+> workflow AI. Chociaż nie jest w pełni zoptymalizowany pod środowiska produkcyjne,
+> łączy solidne komponenty, które dobrze ze sobą współpracują w projektach proof-of-concept.
+> Możesz go dostosować do swoich konkretnych potrzeb.
 
-## Upgrading
+## Aktualizacja
 
-To update all containers to their latest versions (n8n, Open WebUI, etc.), run these commands:
+Aby zaktualizować wszystkie kontenery do najnowszych wersji (n8n, Open WebUI itp.), uruchom te polecenia:
 
 ```bash
-# Stop all services
-docker compose -p localai -f docker-compose.yml --profile <your-profile> down
+# Zatrzymaj wszystkie usługi
+docker compose -p localai -f docker-compose.yml --profile <twoj-profil> down
 
-# Pull latest versions of all containers
-docker compose -p localai -f docker-compose.yml --profile <your-profile> pull
+# Pobierz najnowsze wersje wszystkich kontenerów
+docker compose -p localai -f docker-compose.yml --profile <twoj-profil> pull
 
-# Start services again with your desired profile
-python start_services.py --profile <your-profile>
+# Uruchom usługi ponownie z wybranym profilem
+python start_services.py --profile <twoj-profil>
 ```
 
-Replace `<your-profile>` with one of: `cpu`, `gpu-nvidia`, `gpu-amd`, or `none`.
+Zastąp `<twoj-profil>` jednym z: `cpu`, `gpu-nvidia`, `gpu-amd` lub `none`.
 
-Note: The `start_services.py` script itself does not update containers - it only restarts them or pulls them if you are downloading these containers for the first time. To get the latest versions, you must explicitly run the commands above.
+Uwaga: Sam skrypt `start_services.py` nie aktualizuje kontenerów — tylko je restartuje lub pobiera, jeśli pobierasz te kontenery po raz pierwszy. Aby uzyskać najnowsze wersje, musisz jawnie uruchomić powyższe polecenia.
 
-## Troubleshooting
+## Rozwiązywanie problemów
 
-Here are solutions to common issues you might encounter:
+Oto rozwiązania typowych problemów, które możesz napotkać:
 
-### Supabase Issues
+### Problemy z Supabase
 
-- **Supabase Pooler Restarting**: If the supabase-pooler container keeps restarting itself, follow the instructions in [this GitHub issue](https://github.com/supabase/supabase/issues/30210#issuecomment-2456955578).
+- **Supabase Pooler restartuje się**: Jeśli kontener supabase-pooler ciągle się restartuje, postępuj zgodnie z instrukcjami w [tym zgłoszeniu na GitHub](https://github.com/supabase/supabase/issues/30210#issuecomment-2456955578).
 
-- **Supabase Analytics Startup Failure**: If the supabase-analytics container fails to start after changing your Postgres password, delete the folder `supabase/docker/volumes/db/data`.
+- **Awaria startu Supabase Analytics**: Jeśli kontener supabase-analytics nie uruchamia się po zmianie hasła Postgres, usuń folder `supabase/docker/volumes/db/data`.
 
-- **If using Docker Desktop**: Go into the Docker settings and make sure "Expose daemon on tcp://localhost:2375 without TLS" is turned on
+- **Jeśli używasz Docker Desktop**: Wejdź w ustawienia Dockera i upewnij się, że opcja „Expose daemon on tcp://localhost:2375 without TLS" jest włączona
 
-- **Supabase Service Unavailable** - Make sure you don't have an "@" character in your Postgres password! If the connection to the kong container is working (the container logs say it is receiving requests from n8n) but n8n says it cannot connect, this is generally the problem from what the community has shared. Other characters might not be allowed too, the @ symbol is just the one I know for sure!
+- **Supabase niedostępny** — Upewnij się, że nie masz znaku „@" w haśle Postgres! Jeśli połączenie z kontenerem kong działa (logi kontenera mówią, że odbiera żądania od n8n), ale n8n mówi, że nie może się połączyć, to zazwyczaj jest to problem, na podstawie tego, co udostępniła społeczność. Inne znaki mogą też być niedozwolone, symbol @ to jedyny, o którym wiem na pewno!
 
-- **SearXNG Restarting**: If the SearXNG container keeps restarting, run the command "chmod 755 searxng" within the local-ai-packaged folder so SearXNG has the permissions it needs to create the uwsgi.ini file.
+- **SearXNG restartuje się**: Jeśli kontener SearXNG ciągle się restartuje, uruchom polecenie „chmod 755 searxng" w folderze local-ai-packaged, aby SearXNG miał uprawnienia potrzebne do utworzenia pliku uwsgi.ini.
 
-- **Files not Found in Supabase Folder** - If you get any errors around files missing in the supabase/ folder like .env, docker/docker-compose.yml, etc. this most likely means you had a "bad" pull of the Supabase GitHub repository when you ran the start_services.py script. Delete the supabase/ folder within the Local AI Package folder entirely and try again.
+- **Brak plików w folderze Supabase** — Jeśli pojawią się błędy dotyczące brakujących plików w folderze supabase/ jak .env, docker/docker-compose.yml itp., najprawdopodobniej oznacza to, że miałeś „złe" pobranie repozytorium GitHub Supabase podczas uruchamiania skryptu start_services.py. Usuń folder supabase/ w folderze Local AI Package całkowicie i spróbuj ponownie.
 
-### GPU Support Issues
+### Problemy z obsługą GPU
 
-- **Windows GPU Support**: If you're having trouble running Ollama with GPU support on Windows with Docker Desktop:
-  1. Open Docker Desktop settings
-  2. Enable WSL 2 backend
-  3. See the [Docker GPU documentation](https://docs.docker.com/desktop/features/gpu/) for more details
+- **Obsługa GPU w Windows**: Jeśli masz problemy z uruchomieniem Ollama z obsługą GPU w Windows z Docker Desktop:
+  1. Otwórz ustawienia Docker Desktop
+  2. Włącz backend WSL 2
+  3. Zobacz [dokumentację Docker GPU](https://docs.docker.com/desktop/features/gpu/) po więcej szczegółów
 
-- **Linux GPU Support**: If you're having trouble running Ollama with GPU support on Linux, follow the [Ollama Docker instructions](https://github.com/ollama/ollama/blob/main/docs/docker.md).
+- **Obsługa GPU w Linux**: Jeśli masz problemy z uruchomieniem Ollama z obsługą GPU na Linuxie, postępuj zgodnie z [instrukcjami Ollama Docker](https://github.com/ollama/ollama/blob/main/docs/docker.md).
 
-### n8n Node Issues
+### Problemy z węzłami n8n
 
-- **Local File Trigger or Execute Command nodes not available**: Starting with n8n v2+, these nodes are disabled by default for security. To enable them, uncomment `NODES_EXCLUDE=[]` in the `x-n8n` section of `docker-compose.yml` and restart n8n. See [Accessing local files](#accessing-local-files) for detailed instructions.
+- **Węzły Local File Trigger lub Execute Command niedostępne**: Począwszy od n8n v2+, te węzły są domyślnie wyłączone ze względów bezpieczeństwa. Aby je włączyć, odkomentuj `NODES_EXCLUDE=[]` w sekcji `x-n8n` pliku `docker-compose.yml` i zrestartuj n8n. Zobacz [Dostęp do lokalnych plików](#dostęp-do-lokalnych-plików) po szczegółowe instrukcje.
 
-## 👓 Recommended reading
+## 👓 Zalecana lektura
 
-n8n is full of useful content for getting started quickly with its AI concepts
-and nodes. If you run into an issue, go to [support](#support).
+n8n jest pełen przydatnych treści do szybkiego rozpoczęcia pracy z koncepcjami AI
+i węzłami. Jeśli napotkasz problem, przejdź do [wsparcia](#wsparcie).
 
-- [AI agents for developers: from theory to practice with n8n](https://blog.n8n.io/ai-agents/)
-- [Tutorial: Build an AI workflow in n8n](https://docs.n8n.io/advanced-ai/intro-tutorial/)
-- [Langchain Concepts in n8n](https://docs.n8n.io/advanced-ai/langchain/langchain-n8n/)
-- [Demonstration of key differences between agents and chains](https://docs.n8n.io/advanced-ai/examples/agent-chain-comparison/)
-- [What are vector databases?](https://docs.n8n.io/advanced-ai/examples/understand-vector-databases/)
+- [Agenci AI dla deweloperów: od teorii do praktyki z n8n](https://blog.n8n.io/ai-agents/)
+- [Samouczek: Zbuduj workflow AI w n8n](https://docs.n8n.io/advanced-ai/intro-tutorial/)
+- [Koncepcje Langchain w n8n](https://docs.n8n.io/advanced-ai/langchain/langchain-n8n/)
+- [Demonstracja kluczowych różnic między agentami a łańcuchami](https://docs.n8n.io/advanced-ai/examples/agent-chain-comparison/)
+- [Czym są bazy wektorowe?](https://docs.n8n.io/advanced-ai/examples/understand-vector-databases/)
 
-## 🎥 Video walkthrough
+## 🎥 Przewodnik wideo
 
-- [Cole's Guide to the Local AI Starter Kit](https://youtu.be/pOsO40HSbOo)
+- [Przewodnik Cole'a po Local AI Starter Kit](https://youtu.be/pOsO40HSbOo)
 
-## 🛍️ More AI templates
+## 🛍️ Więcej szablonów AI
 
-For more AI workflow ideas, visit the [**official n8n AI template
-gallery**](https://n8n.io/workflows/?categories=AI). From each workflow,
-select the **Use workflow** button to automatically import the workflow into
-your local n8n instance.
+Po więcej pomysłów na workflow AI odwiedź [**oficjalną galerię szablonów AI
+n8n**](https://n8n.io/workflows/?categories=AI). Z każdego workflow
+wybierz przycisk **Użyj workflow**, aby automatycznie zaimportować workflow do
+Twojej lokalnej instancji n8n.
 
-### Learn AI key concepts
+### Poznaj kluczowe koncepcje AI
 
-- [AI Agent Chat](https://n8n.io/workflows/1954-ai-agent-chat/)
-- [AI chat with any data source (using the n8n workflow too)](https://n8n.io/workflows/2026-ai-chat-with-any-data-source-using-the-n8n-workflow-tool/)
-- [Chat with OpenAI Assistant (by adding a memory)](https://n8n.io/workflows/2098-chat-with-openai-assistant-by-adding-a-memory/)
-- [Use an open-source LLM (via HuggingFace)](https://n8n.io/workflows/1980-use-an-open-source-llm-via-huggingface/)
-- [Chat with PDF docs using AI (quoting sources)](https://n8n.io/workflows/2165-chat-with-pdf-docs-using-ai-quoting-sources/)
-- [AI agent that can scrape webpages](https://n8n.io/workflows/2006-ai-agent-that-can-scrape-webpages/)
+- [Czat z agentem AI](https://n8n.io/workflows/1954-ai-agent-chat/)
+- [Czat AI z dowolnym źródłem danych (używając również narzędzia workflow n8n)](https://n8n.io/workflows/2026-ai-chat-with-any-data-source-using-the-n8n-workflow-tool/)
+- [Czat z asystentem OpenAI (z dodaniem pamięci)](https://n8n.io/workflows/2098-chat-with-openai-assistant-by-adding-a-memory/)
+- [Użyj open-source'owego modelu LLM (przez HuggingFace)](https://n8n.io/workflows/1980-use-an-open-source-llm-via-huggingface/)
+- [Czat z dokumentami PDF przy użyciu AI (z cytowaniem źródeł)](https://n8n.io/workflows/2165-chat-with-pdf-docs-using-ai-quoting-sources/)
+- [Agent AI, który może scrapować strony internetowe](https://n8n.io/workflows/2006-ai-agent-that-can-scrape-webpages/)
 
-### Local AI templates
+### Lokalne szablony AI
 
-- [Tax Code Assistant](https://n8n.io/workflows/2341-build-a-tax-code-assistant-with-qdrant-mistralai-and-openai/)
-- [Breakdown Documents into Study Notes with MistralAI and Qdrant](https://n8n.io/workflows/2339-breakdown-documents-into-study-notes-using-templating-mistralai-and-qdrant/)
-- [Financial Documents Assistant using Qdrant and](https://n8n.io/workflows/2335-build-a-financial-documents-assistant-using-qdrant-and-mistralai/) [ Mistral.ai](http://mistral.ai/)
-- [Recipe Recommendations with Qdrant and Mistral](https://n8n.io/workflows/2333-recipe-recommendations-with-qdrant-and-mistral/)
+- [Asystent ds. kodeksu podatkowego](https://n8n.io/workflows/2341-build-a-tax-code-assistant-with-qdrant-mistralai-and-openai/)
+- [Rozbij dokumenty na notatki do nauki z MistralAI i Qdrant](https://n8n.io/workflows/2339-breakdown-documents-into-study-notes-using-templating-mistralai-and-qdrant/)
+- [Asystent ds. dokumentów finansowych z Qdrant i](https://n8n.io/workflows/2335-build-a-financial-documents-assistant-using-qdrant-and-mistralai/) [ Mistral.ai](http://mistral.ai/)
+- [Rekomendacje przepisów z Qdrant i Mistral](https://n8n.io/workflows/2333-recipe-recommendations-with-qdrant-and-mistral/)
 
-## Tips & tricks
+## Porady i triki
 
-### Accessing local files
+### Dostęp do lokalnych plików
 
-The self-hosted AI starter kit will create a shared folder (by default,
-located in the same directory) which is mounted to the n8n container and
-allows n8n to access files on disk. This folder within the n8n container is
-located at `/data/shared` -- this is the path you’ll need to use in nodes that
-interact with the local filesystem.
+Samodzielnie hostowany starter kit AI utworzy współdzielony folder (domyślnie
+zlokalizowany w tym samym katalogu), który jest zamontowany w kontenerze n8n i
+pozwala n8n na dostęp do plików na dysku. Ten folder wewnątrz kontenera n8n znajduje się
+pod ścieżką `/data/shared` — jest to ścieżka, której musisz użyć w węzłach, które
+współpracują z lokalnym systemem plików.
 
-**Nodes that interact with the local filesystem**
+**Węzły współpracujące z lokalnym systemem plików**
 
-- [Read/Write Files from Disk](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.filesreadwrite/)
-- [Local File Trigger](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.localfiletrigger/)
-- [Execute Command](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.executecommand/)
+- [Odczyt/Zapis plików z dysku](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.filesreadwrite/)
+- [Wyzwalacz lokalnych plików](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.localfiletrigger/)
+- [Wykonaj polecenie](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.executecommand/)
 
-**Enabling Local File Trigger and Execute Command nodes**
+**Włączanie węzłów Local File Trigger i Execute Command**
 
-Starting with n8n v2+, the `Local File Trigger` and `Execute Command` nodes are disabled by default for security reasons. To enable them in this local/self-hosted environment:
+Począwszy od n8n v2+, węzły `Local File Trigger` i `Execute Command` są domyślnie wyłączone ze względów bezpieczeństwa. Aby je włączyć w tym lokalnym/samodzielnie hostowanym środowisku:
 
-1. Open `docker-compose.yml`
-2. Find the `x-n8n` section and uncomment the `NODES_EXCLUDE` line:
+1. Otwórz `docker-compose.yml`
+2. Znajdź sekcję `x-n8n` i odkomentuj linię `NODES_EXCLUDE`:
    ```yaml
    x-n8n: &service-n8n
      image: n8nio/n8n:latest
      environment:
-       # ... other variables ...
+       # ... inne zmienne ...
        - NODES_EXCLUDE=[]
    ```
-3. Restart the n8n container:
+3. Zrestartuj kontener n8n:
    ```bash
-   docker compose -p localai -f docker-compose.yml --profile <your-profile> up -d n8n
+   docker compose -p localai -f docker-compose.yml --profile <twoj-profil> up -d n8n
    ```
 
-See [n8n 2.0 Breaking Changes](https://docs.n8n.io/2-0-breaking-changes/#disable-executecommand-and-localfiletrigger-nodes-by-default) for more details.
+Zobacz [Zmiany łamiące w n8n 2.0](https://docs.n8n.io/2-0-breaking-changes/#disable-executecommand-and-localfiletrigger-nodes-by-default) po więcej szczegółów.
 
-## 📜 License
+## 📜 Licencja
 
-This project (originally created by the n8n team, link at the top of the README) is licensed under the Apache License 2.0 - see the
-[LICENSE](LICENSE) file for details.
+Ten projekt (pierwotnie stworzony przez zespół n8n, link na górze README) jest objęty licencją Apache License 2.0 — szczegóły znajdziesz w pliku
+[LICENSE](LICENSE).
