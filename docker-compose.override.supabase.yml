@@ -16,6 +16,8 @@ services:
     entrypoint: ["httpd", "-f", "-p", "4000", "-h", "/tmp"]
     environment: {}
     depends_on: {}
+    networks:
+      - shared-infra
 
   vector:
     image: busybox:latest
@@ -29,3 +31,71 @@ services:
     environment: {}
     volumes: []
     command: []
+
+  # Sieci zewnętrzne dla serwisów Supabase
+  # Dzięki temu n8n i inne kontenery spoza projektu mają dostęp do API Supabase
+
+  db:
+    networks:
+      - shared-infra
+
+  kong:
+    networks:
+      - shared-infra
+      - caddy-net
+
+  auth:
+    environment:
+      # Szablony e-mail (URL do plików HTML)
+      GOTRUE_MAILER_TEMPLATES_INVITE: ${GOTRUE_MAILER_TEMPLATES_INVITE:-}
+      GOTRUE_MAILER_TEMPLATES_CONFIRMATION: ${GOTRUE_MAILER_TEMPLATES_CONFIRMATION:-}
+      GOTRUE_MAILER_TEMPLATES_RECOVERY: ${GOTRUE_MAILER_TEMPLATES_RECOVERY:-}
+      GOTRUE_MAILER_TEMPLATES_EMAIL_CHANGE: ${GOTRUE_MAILER_TEMPLATES_EMAIL_CHANGE:-}
+      GOTRUE_MAILER_TEMPLATES_MAGIC_LINK: ${GOTRUE_MAILER_TEMPLATES_MAGIC_LINK:-}
+      # Tematy e-mail
+      GOTRUE_MAILER_SUBJECTS_INVITE: ${GOTRUE_MAILER_SUBJECTS_INVITE:-}
+      GOTRUE_MAILER_SUBJECTS_CONFIRMATION: ${GOTRUE_MAILER_SUBJECTS_CONFIRMATION:-}
+      GOTRUE_MAILER_SUBJECTS_RECOVERY: ${GOTRUE_MAILER_SUBJECTS_RECOVERY:-}
+      GOTRUE_MAILER_SUBJECTS_MAGIC_LINK: ${GOTRUE_MAILER_SUBJECTS_MAGIC_LINK:-}
+      GOTRUE_MAILER_SUBJECTS_EMAIL_CHANGE: ${GOTRUE_MAILER_SUBJECTS_EMAIL_CHANGE:-}
+    networks:
+      - shared-infra
+
+  rest:
+    networks:
+      - shared-infra
+
+  storage:
+    networks:
+      - shared-infra
+
+  realtime:
+    networks:
+      - shared-infra
+
+  supavisor:
+    networks:
+      - shared-infra
+
+  meta:
+    networks:
+      - shared-infra
+
+  functions:
+    networks:
+      - shared-infra
+
+  studio:
+    networks:
+      - shared-infra
+      - caddy-net
+
+  imgproxy:
+    networks:
+      - shared-infra
+
+networks:
+  caddy-net:
+    external: true
+  shared-infra:
+    external: true
