@@ -7,12 +7,25 @@
 {$N8N_HOSTNAME} {
     # Dla domen Caddy automatycznie użyje Let's Encrypt
     # Dla adresów localhost/port HTTPS nie będzie włączony
-    reverse_proxy n8n:5678
+    reverse_proxy n8n-main:5678
 }
 
 # Supabase
 {$SUPABASE_HOSTNAME} {
     reverse_proxy kong:8000
+}
+
+# Portainer
+{$PORTAINER_HOSTNAME} {
+    reverse_proxy portainer:9000
+}
+
+# Docling Serve - API konwersji dokumentów
+{$DOCLING_HOSTNAME} {
+    # Basic Auth dla panelów przeglądarkowych (plik generowany przez start_services.py)
+    import /etc/caddy/addons/docling-auth.caddyfile
+
+    reverse_proxy docling-serve:5001
 }
 
 import /etc/caddy/addons/*.conf

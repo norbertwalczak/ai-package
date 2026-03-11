@@ -1,8 +1,16 @@
 services:
-  n8n:
+  n8n-main:
     ports:
       - 127.0.0.1:5678:5678
 
   redis:
     ports:
       - 127.0.0.1:6379:6379
+
+  portainer:
+    ports:
+      - 127.0.0.1:9000:9000
+
+  docling-serve:
+    ports:
+      - 127.0.0.1:5001:5001
