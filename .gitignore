@@ -5,5 +5,9 @@ neo4j/
 shared-backup/
 .env.test
 searxng/settings.yml
-searxng/uwsgi*supabase/
+searxng/uwsgi*
+supabase/
 nw-secret.md
+
+# Generowane automatycznie przez start_services.py
+caddy-addon/docling-auth.caddyfile

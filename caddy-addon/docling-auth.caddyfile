@@ -1,6 +1,0 @@
-basic_auth /docs* {
-    admin $2a$14$1rulbkLzMXO5Hv1LxHMlYuQtw5n38Iyiz4GTqIWeuknnbEgQGxrJy
-}
-basic_auth /ui* {
-    admin $2a$14$1rulbkLzMXO5Hv1LxHMlYuQtw5n38Iyiz4GTqIWeuknnbEgQGxrJy
-}
